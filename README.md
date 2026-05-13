@@ -14,9 +14,17 @@ graph LR
     G --> H[✅ Done!]
 ```
 
-Screenshot one - ![Screenshot 1](2.png)
-Screenshot two - ![Screenshot 2](1.png)
-Screenshot Three - ![Screenshot 3](3.png)
+## ⚙️ How It Works (Architecture):
+- **Event Trigger:** Listens for a custom emoji reaction on any Slack message via Slack Events API & OAuth2
+-** Message Retrieval:** Fetches the original message using Slack’s conversations.replies endpoint with scoped permissions (channels:history, reactions:read)
+- **AI PRD Generation:** Routes the message to Groq’s Llama 3.3-70b via a carefully engineered prompt chain that enforces structure (Problem, Features, Acceptance Criteria, Out of Scope, Success Metrics)
+- **Jira Integration: **Transforms the LLM output into Atlassian Document Format (ADF) and creates a ticket via Jira REST API v3, handling custom field validation & screen restrictions
+- **Feedback Loop:** Automatically replies in Slack with the new ticket link, summary, and status
+
+
+## Screenshot one - ![Screenshot 1](2.png)
+## Screenshot two - ![Screenshot 2](1.png)
+## Screenshot Three - ![Screenshot 3](3.png)
 
 ## ✨ Features
 
