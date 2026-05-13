@@ -1,9 +1,21 @@
 # 🤖 Slack → PRD → Jira Automator
 
-> Turn any Slack message into a structured Product Requirements Document (PRD) and Jira ticket with a single emoji reaction. 🐷✨
+> Turn any Slack message into a structured Product Requirements Document (PRD) and Jira ticket with a single emoji reaction.
+## 🧩 Architecture
 
-![Screenshot 1](1.png)
-![Screenshot 2](2.png)
+```mermaid
+graph LR
+    A[Slack Message] --> B[React with :piggy:]
+    B --> C[Pipedream Trigger]
+    C --> D[Fetch Message via Slack API]
+    D --> E[Generate PRD via Groq/Llama 3.3]
+    E --> F[Create Jira Ticket via REST API]
+    F --> G[Reply to Slack with Ticket Link]
+    G --> H[✅ Done!]
+```
+
+Screenshot one - ![Screenshot 1](1.png)
+Screenshot two - ![Screenshot 2](2.png)
 
 ## ✨ Features
 
@@ -43,18 +55,7 @@
 
 👉 [Full setup guide with screenshots](docs/setup-guide.md)
 
-## 🧩 Architecture
 
-```mermaid
-graph LR
-    A[Slack Message] --> B[React with :piggy:]
-    B --> C[Pipedream Trigger]
-    C --> D[Fetch Message via Slack API]
-    D --> E[Generate PRD via Groq/Llama 3.3]
-    E --> F[Create Jira Ticket via REST API]
-    F --> G[Reply to Slack with Ticket Link]
-    G --> H[✅ Done!]
-```
 ### 🔧 Customization
 
 - **Change the trigger emoji**: 
