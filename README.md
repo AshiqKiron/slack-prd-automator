@@ -14,8 +14,8 @@ graph LR
     G --> H[✅ Done!]
 ```
 
-Screenshot one - ![Screenshot 1](1.png)
-Screenshot two - ![Screenshot 2](2.png)
+Screenshot one - ![Screenshot 1](2.png)
+Screenshot two - ![Screenshot 2](1.png)
 
 ## ✨ Features
 
