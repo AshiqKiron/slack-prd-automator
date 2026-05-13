@@ -1,0 +1,59 @@
+# 🛠️ Troubleshooting Guide
+
+This guide covers the most common errors encountered when running the Slack → PRD → Jira workflow, along with exact fixes.
+
+---
+
+## 📡 Slack API Errors
+
+### 🔐 `invalid_auth`
+**Root Cause:** The Bot Token is expired, revoked, or copied incorrectly.
+**Fix:**
+1. Go to [Slack App Dashboard → OAuth & Permissions](https://api.slack.com/apps)
+2. Scroll to **Bot User OAuth Token** → Copy the fresh `xoxb-...` token
+3. In Pipedream, open the HTTP Request step → Headers → Replace the old `Authorization: Bearer ...` value
+4. Re-test
+
+### 📜 `missing_scope`
+**Root Cause:** The app lacks `channels:history` or `groups:history` permissions.
+**Fix:**
+1. In Slack App Dashboard → **OAuth & Permissions** → Scroll to **Bot token scopes**
+2. Add: `channels:history`, `groups:history`, `im:history`, `mpim:history`
+3. ⚠️ **Critical:** Click **Reinstall to Workspace** at the top of the page. Scopes don't apply until reinstall.
+4. Update Pipedream with the new token
+
+### 🚪 `not_in_channel`
+**Root Cause:** The bot isn't a member of the channel where the message was posted.
+**Fix:**
+- Type `/invite @YourBotName` in the Slack channel where you're testing
+- Re-trigger the workflow
+
+---
+
+##  Jira API Errors
+
+### 🧩 `customfield_XXXX: Field 'customfield_XXXX' cannot be set. It is not on the appropriate screen, or unknown.`
+**Root Cause:** Pipedream is sending a custom field (e.g., `Team`, `Sprint`, `Epic Link`) that isn't configured on your project's "Create Issue" screen.
+**Fix:**
+1. In Pipedream, open the **Jira → Create Issue** step
+2. Scroll to **Optional Fields** → Find the matching field (e.g., `Team`)
+3. Click the **`-` (minus)** or **`✕`** button to **delete the entire row**
+4. Ensure ONLY `Project Key`, `Issue Type`, `Summary`, `Description` remain
+5. If the field won't delete, change **Issue Type** to `Task` (fewer custom fields) or create a new Kanban project in Jira and use its key
+
+### 📄 `400 Bad Request: description format`
+**Root Cause:** Jira Cloud API v3 requires `description` in **Atlassian Document Format (ADF)**, not plain text/markdown.
+**Fix:** Use the payload structure from `src/jira-payload.json`:
+```json
+"description": {
+  "type": "doc",
+  "version": 1,
+  "content": [
+    {
+      "type": "paragraph",
+      "content": [
+        { "type": "text", "text": "{{PRD_CONTENT}}" }
+      ]
+    }
+  ]
+}

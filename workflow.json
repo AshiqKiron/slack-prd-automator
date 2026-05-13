@@ -1,0 +1,51 @@
+
+---
+
+## 📄 workflow.json (Pipedream Export)
+
+To export your workflow:
+1. In Pipedream, open your workflow
+2. Click the **⋮ (three dots)** menu → **Export** → **Download JSON**
+3. Save as `workflow.json` in your repo
+
+> 💡 **Pro Tip**: Before exporting, replace any hardcoded tokens/keys with Pipedream environment variables (`{{env.VARIABLE_NAME}}`) so others can safely import it.
+
+---
+
+## 🎬 Creating a "Live Demo" (Without Sharing Credentials)
+
+Since your workflow requires private API keys, here's how to showcase it safely:
+
+### Option 1: Screen Recording (Recommended)
+1. Use [Loom](https://loom.com) or OBS to record:
+   - Posting a Slack message: "Build a habit tracker app"
+   - Reacting with 🐷
+   - Watching the workflow run in Pipedream (Executions tab)
+   - Seeing the Jira ticket appear
+   - Getting the Slack reply with the link
+2. Edit to 60 seconds max, add captions
+3. Upload to `demo/demo-video.mp4` and embed in README
+
+### Option 2: Interactive Demo with Mock Data
+Create a **public demo endpoint** that simulates the workflow:
+
+```javascript
+// src/demo-handler.js (for Vercel/Netlify)
+export default async function handler(req, res) {
+  const mockSlackMessage = req.query.message || "Build a fitness app";
+  
+  // Simulate PRD generation (static example)
+  const mockPRD = `## 📌 PRD: Fitness Tracker App
+**Problem:** Users lack motivation to exercise consistently...
+**Features:**
+- Daily workout suggestions
+- Progress tracking with charts
+...`;
+
+  res.json({
+    slack_message: mockSlackMessage,
+    prd: mockPRD,
+    jira_ticket: "DEMO-123",
+    demo_link: "https://your-demo-site.atlassian.net/browse/DEMO-123"
+  });
+}
