@@ -16,6 +16,7 @@ graph LR
 
 Screenshot one - ![Screenshot 1](2.png)
 Screenshot two - ![Screenshot 2](1.png)
+Screenshot Three - ![Screenshot 3](3.png)
 
 ## ✨ Features
 
